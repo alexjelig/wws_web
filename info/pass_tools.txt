@@ -1,0 +1,4 @@
+.\PassTool.ps1 verify 123456 +zpHVUtEN5JSrEseInSUvQ==:xeKdpwrIX3MgchuQ7u8UNHT3I9xWJ5oxqQlEJO44jsk=
+
+.\ptaj.ps1 wws 0 alex alex@awmlimited.co.uk 123456
+
