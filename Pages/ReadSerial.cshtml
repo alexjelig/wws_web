@@ -1,0 +1,26 @@
+﻿@page
+@model wws_web.Pages.ReadSerialModel
+@{
+    ViewData["Title"] = "Read Weight from Serial Port";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <label for="portName">Serial Port Name:</label>
+    <input type="text" id="portName" name="PortName" value="@Model.PortName" />
+    <button type="submit">Read Weight</button>
+</form>
+
+@if (Model.Weight != null)
+{
+    <div>
+        <strong>Weight:</strong> @Model.Weight
+    </div>
+}
+@if (Model.Error != null)
+{
+    <div style="color:red">
+        <strong>Error:</strong> @Model.Error
+    </div>
+}

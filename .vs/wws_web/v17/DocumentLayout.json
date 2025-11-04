@@ -1,0 +1,526 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\My.ASP\\wws_web\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\models\\appsetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:models\\appsetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\settings\\editappsetup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\settings\\editappsetup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\services\\baykonweightreaderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:services\\baykonweightreaderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\services\\serialportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:services\\serialportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\liveweight.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\liveweight.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\liveweight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\liveweight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:wwwroot\\lib\\jquery\\dist\\jquery.slim.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:wwwroot\\lib\\jquery\\dist\\jquery.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\readserial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\readserial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\services\\loginservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:services\\loginservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\readserial.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\readserial.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\shared\\_sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\shared\\_sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\settings\\editappsetup.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\settings\\editappsetup.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\models\\scannersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:models\\scannersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\wws_web.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:wws_web.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\services\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:services\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\readtcp.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\readtcp.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\liveweighttcp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\liveweighttcp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\readtcp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\readtcp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\weightapi.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\weightapi.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|e:\\my.asp\\wws_web\\pages\\weightapi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D3C9E69C-5DF9-4C7F-839F-DAFE4C7E3B66}|wws_web.csproj|solutionrelative:pages\\weightapi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{ecb7191a-597b-41f5-9843-03a4cf275dde}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-11T10:17:24.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EditAppSetup.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Settings\\EditAppSetup.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Settings\\EditAppSetup.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Settings\\EditAppSetup.cshtml",
+              "RelativeToolTip": "Pages\\Settings\\EditAppSetup.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-27T16:38:17.676Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppSetup.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Models\\AppSetup.cs",
+              "RelativeDocumentMoniker": "Models\\AppSetup.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Models\\AppSetup.cs",
+              "RelativeToolTip": "Models\\AppSetup.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T14:16:04.241Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_Layout.cshtml.css",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Shared\\_Layout.cshtml.css",
+              "RelativeDocumentMoniker": "Pages\\Shared\\_Layout.cshtml.css",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Shared\\_Layout.cshtml.css",
+              "RelativeToolTip": "Pages\\Shared\\_Layout.cshtml.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-29T15:37:56.584Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Index.cshtml",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-02T16:16:24.983Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BaykonWeightReaderService.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Services\\BaykonWeightReaderService.cs",
+              "RelativeDocumentMoniker": "Services\\BaykonWeightReaderService.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Services\\BaykonWeightReaderService.cs",
+              "RelativeToolTip": "Services\\BaykonWeightReaderService.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAA0wEsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T13:14:11.536Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LiveWeight.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\LiveWeight.cshtml",
+              "RelativeDocumentMoniker": "Pages\\LiveWeight.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\LiveWeight.cshtml",
+              "RelativeToolTip": "Pages\\LiveWeight.cshtml",
+              "ViewState": "AgIAABEAAAAAAAAAAIAzwCEAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-11T13:35:59.737Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LiveWeight.cshtml.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\LiveWeight.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\LiveWeight.cshtml.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\LiveWeight.cshtml.cs",
+              "RelativeToolTip": "Pages\\LiveWeight.cshtml.cs",
+              "ViewState": "AgIAAF4AAAAAAAAAAAA2wGQAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T13:36:42.297Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SerialPortService.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Services\\SerialPortService.cs",
+              "RelativeDocumentMoniker": "Services\\SerialPortService.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Services\\SerialPortService.cs",
+              "RelativeToolTip": "Services\\SerialPortService.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAuwD4AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T08:37:24.555Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "jquery.js",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ToolTip": "E:\\My.ASP\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeToolTip": "wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ViewState": "AgIAAIMjAAAAAAAAAIAzwI4jAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-31T13:27:40.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "jquery.min.js",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "ToolTip": "E:\\My.ASP\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "RelativeToolTip": "wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAEAAABTLgEAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-31T13:27:45.156Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "jquery.slim.js",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
+              "ToolTip": "E:\\My.ASP\\wws_web\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
+              "RelativeToolTip": "wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
+              "ViewState": "AgIAAE4BAAAAAAAAAAAAAFEBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-31T13:27:49.489Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "LoginService.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Services\\LoginService.cs",
+              "RelativeDocumentMoniker": "Services\\LoginService.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Services\\LoginService.cs",
+              "RelativeToolTip": "Services\\LoginService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAABEAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T15:13:08.372Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ReadSerial.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\ReadSerial.cshtml",
+              "RelativeDocumentMoniker": "Pages\\ReadSerial.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\ReadSerial.cshtml",
+              "RelativeToolTip": "Pages\\ReadSerial.cshtml",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAABcAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-11T10:15:41.141Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ReadSerial.cshtml.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\ReadSerial.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\ReadSerial.cshtml.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\ReadSerial.cshtml.cs",
+              "RelativeToolTip": "Pages\\ReadSerial.cshtml.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAA0wHMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T10:16:56.237Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "site.css",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "E:\\My.ASP\\wws_web\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAuwNQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-09-24T10:28:42.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "_Sidebar.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Shared\\_Sidebar.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Shared\\_Sidebar.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Shared\\_Sidebar.cshtml",
+              "RelativeToolTip": "Pages\\Shared\\_Sidebar.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADAAAACKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-23T11:30:37.395Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAA3wDEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T16:11:03.379Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "Pages\\Index.cshtml.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAA0wBoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T16:15:38.031Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "EditAppSetup.cshtml.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Settings\\EditAppSetup.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Settings\\EditAppSetup.cshtml.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Settings\\EditAppSetup.cshtml.cs",
+              "RelativeToolTip": "Pages\\Settings\\EditAppSetup.cshtml.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAhwCEAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T15:43:49.56Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Login.cshtml.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Login.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Login.cshtml.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Login.cshtml.cs",
+              "RelativeToolTip": "Pages\\Login.cshtml.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAABgAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T16:09:24.245Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Login.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Models\\Login.cs",
+              "RelativeDocumentMoniker": "Models\\Login.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Models\\Login.cs",
+              "RelativeToolTip": "Models\\Login.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA+wBYAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T14:56:36.824Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ScannerSettings.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Models\\ScannerSettings.cs",
+              "RelativeDocumentMoniker": "Models\\ScannerSettings.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Models\\ScannerSettings.cs",
+              "RelativeToolTip": "Models\\ScannerSettings.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAqwBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T15:42:21.423Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "wws_web.csproj",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\wws_web.csproj",
+              "RelativeDocumentMoniker": "wws_web.csproj",
+              "ToolTip": "E:\\My.ASP\\wws_web\\wws_web.csproj",
+              "RelativeToolTip": "wws_web.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-27T16:26:48.787Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "PasswordHasher.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Services\\PasswordHasher.cs",
+              "RelativeDocumentMoniker": "Services\\PasswordHasher.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Services\\PasswordHasher.cs",
+              "RelativeToolTip": "Services\\PasswordHasher.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAiwCQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T16:06:39.305Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\Login.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Login.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\Login.cshtml",
+              "RelativeToolTip": "Pages\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-02T16:08:23.108Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "LiveWeightTCP.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\LiveWeightTCP.cshtml",
+              "RelativeDocumentMoniker": "Pages\\LiveWeightTCP.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\LiveWeightTCP.cshtml",
+              "RelativeToolTip": "Pages\\LiveWeightTCP.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-24T11:32:30.295Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ReadTCP.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\ReadTCP.cshtml",
+              "RelativeDocumentMoniker": "Pages\\ReadTCP.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\ReadTCP.cshtml",
+              "RelativeToolTip": "Pages\\ReadTCP.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-24T11:31:58.265Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ReadTCP.cshtml.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\ReadTCP.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\ReadTCP.cshtml.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\ReadTCP.cshtml.cs",
+              "RelativeToolTip": "Pages\\ReadTCP.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T11:34:50.512Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "WeightApi.cshtml.cs",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\WeightApi.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\WeightApi.cshtml.cs",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\WeightApi.cshtml.cs",
+              "RelativeToolTip": "Pages\\WeightApi.cshtml.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAwBoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T14:33:26.017Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "WeightApi.cshtml",
+              "DocumentMoniker": "E:\\My.ASP\\wws_web\\Pages\\WeightApi.cshtml",
+              "RelativeDocumentMoniker": "Pages\\WeightApi.cshtml",
+              "ToolTip": "E:\\My.ASP\\wws_web\\Pages\\WeightApi.cshtml",
+              "RelativeToolTip": "Pages\\WeightApi.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-11T14:33:08.009Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

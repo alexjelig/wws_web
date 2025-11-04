@@ -1,0 +1,84 @@
+@page
+@model wws_web.Pages.Settings.EditWeightModel
+@using System.Collections.Generic
+@{
+    ViewData["Title"] = "Weight Setup";
+    var filePath = (string?)ViewData["SettingsFilePath"] ?? "";
+    var examplePath = @"C:\wws\weight.json";
+}
+
+<h2>Weight setup</h2>
+
+<form method="post" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label class="form-label">COM Port:</label>
+        <select asp-for="Model.PortName" class="form-select">
+            <option value="">-- select port --</option>
+            @foreach (var p in Model.AvailablePorts)
+            {
+                <option value="@p" selected="@(p == Model.Model.PortName ? "selected" : null)">@p</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Baud Rate:</label>
+        <select asp-for="Model.BaudRate" class="form-select">
+            @foreach (var b in Model.CommonBaudRates)
+            {
+                <option value="@b" selected="@(b == Model.Model.BaudRate ? "selected" : null)">@b</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Data Bits:</label>
+        <select asp-for="Model.DataBits" class="form-select">
+            @foreach (var d in Model.DataBitsOptions)
+            {
+                <option value="@d" selected="@(d == Model.Model.DataBits ? "selected" : null)">@d</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Parity:</label>
+        <select asp-for="Model.Parity" class="form-select">
+            @foreach (var pr in Model.ParityOptions)
+            {
+                <option value="@pr" selected="@(pr == Model.Model.Parity ? "selected" : null)">@pr</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Stop Bits:</label>
+        <select asp-for="Model.StopBits" class="form-select">
+            @foreach (var sb in Model.StopBitsOptions)
+            {
+                <option value="@sb" selected="@(sb == Model.Model.StopBits ? "selected" : null)">@sb</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Settings file (full path or leave to use default):</label>
+        <input name="filePath" value="@filePath" class="form-control" />
+        <small class="form-text text-muted">Example: @examplePath — path is posted in the form body (not in the URL)</small>
+    </div>
+
+    <input type="hidden" name="filePath" value="@filePath" />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["Message"]</div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,38 @@
+@page
+@model wws_web.Pages.Settings.EditAppSetupModel
+@{
+    ViewData["Title"] = "Application Settings";
+    var filePath = (string?)ViewData["SettingsFilePath"] ?? "";
+    var examplePath = @"C:\wws\appsetup.json";
+}
+
+<h2>Application settings</h2>
+
+<form method="post" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label class="form-label">Zero Band (kg):</label>
+        <input asp-for="Model.ZeroBand" class="form-control" step="any" type="number" />
+        <span asp-validation-for="Model.ZeroBand" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Settings file (full path or leave to use default):</label>
+        <input name="filePath" value="@filePath" class="form-control" />
+        <small class="form-text text-muted">Example: @examplePath — path is posted in the form body (not in the URL).</small>
+    </div>
+
+    <input type="hidden" name="filePath" value="@filePath" />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["Message"]</div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

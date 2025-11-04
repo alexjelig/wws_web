@@ -1,0 +1,193 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@* Define version-related variables at the top for easy access *@
+@{
+    string version = "1.03";
+    string versionDate = "03-11-2025";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - wws_web</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/wws_web.styles.css" asp-append-version="true" />
+    <style>
+        /* Custom Styles for Header Alignment */
+        .user-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Align everything to the left */
+            gap: 10px; /* Space between items */
+            width: 100%; /* Fill the container */
+        }
+
+        .user-section button {
+            width: 160px; /* Ensure Logout button stays wide */
+        }
+
+        #logout-button {
+            width: 160px; /* Button is twice as wide */
+            text-align: center;
+            font-size: 16px; /* Adjust label font size */
+            position: relative; /* Required for containing the progress bar */
+        }
+
+        #logout-progress {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 100%; /* Full height of the button */
+            width: 0%; /* Start at 0% width */
+            background: #28a745; /* Green progress bar */
+            z-index: 1; /* Keep the progress bar behind the text */
+            opacity: 0.5; /* Slight transparency for better readability */
+        }
+
+        #logout-button span {
+            position: relative;
+            z-index: 2; /* Ensure text is always above the progress bar */
+        }
+
+        /* Custom style for version positioning */
+        .version-tag {
+            position: absolute;
+            top: 0.5rem; /* Offset from the top */
+            left: 1rem; /* Offset from the left */
+            font-size: 0.9rem; /* Adjust font size for visibility */
+            color: #6c757d; /* Bootstrap muted color */
+            z-index: 10; /* Ensure visibility */
+        }
+    </style>
+</head>
+<body>
+    <!-- Version Tag in Top-Left Corner -->
+    <div class="version-tag">
+        WWS_web ver.@version, @versionDate
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <div class="user-section">
+                    @{
+                        var userName = Context.Session.GetString("UserName");
+                        var email = Context.Session.GetString("Email");
+                    }
+                    @if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(email))
+                    {
+                        <span>
+                            Logged <b>@userName</b> (<i>@email</i>)
+                        </span>
+                        <form method="post" asp-page="/Index" asp-page-handler="Logout" class="d-inline">
+                            <button type="submit" id="logout-button" class="btn btn-outline-dark btn-sm position-relative">
+                                <span>Logout</span>
+                                <div id="logout-progress" class="position-absolute bottom-0 start-0 h-100" style="width: 0%; background: #28a745;"></div>
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @{
+        var userNameForLayout = Context.Session.GetString("UserName");
+        var isLoggedIn = !string.IsNullOrEmpty(userNameForLayout);
+    }
+
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            @if (isLoggedIn)
+            {
+                <div class="col-3 sidebar px-0">
+                    @await Html.PartialAsync("_Sidebar")
+                </div>
+                <div class="col">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+            }
+            else
+            {
+                <div class="col-12">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+            }
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - wws_web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        (function () {
+            const phase1TimeoutMs = 10 * 1000; // Phase 1: Silent inactivity (10 seconds)
+            const phase2TimeoutMs = 10 * 1000; // Phase 2: Progress bar countdown (10 seconds)
+            const updateIntervalMs = 1000; // Progress bar updates every second
+
+            let timeoutId;              // Timer for inactivity phases
+            let progressIntervalId;     // Interval timer for progress bar
+            let secondsElapsed = 0;     // Time elapsed during progress bar phase
+
+            const logoutButton = document.getElementById('logout-button');
+            const progressBar = document.getElementById('logout-progress');
+
+            function logoutUser() {
+                if (logoutButton && !logoutButton.closest('form').classList.contains('disabled')) {
+                    logoutButton.click(); // Simulate logout click
+                }
+            }
+
+            function resetTimer() {
+                clearTimeout(timeoutId);
+                clearInterval(progressIntervalId);
+                progressBar.style.width = '0%'; // Reset progress bar width
+                secondsElapsed = 0; // Reset elapsed seconds
+
+                // Start first (silent) phase
+                timeoutId = setTimeout(startSecondPhase, phase1TimeoutMs);
+            }
+
+            function startSecondPhase() {
+                // Begin progress bar animation
+                progressIntervalId = setInterval(() => {
+                    secondsElapsed += Math.floor(updateIntervalMs / 1000); // Increment elapsed seconds
+                    const progressPercentage = Math.min((secondsElapsed / (phase2TimeoutMs / 1000)) * 100, 100); // Calculate progress
+                    progressBar.style.width = progressPercentage + '%'; // Expand progress width
+                }, updateIntervalMs);
+
+                timeoutId = setTimeout(logoutUser, phase2TimeoutMs); // Trigger logout after second phase
+            }
+
+            // List of activity events
+            const activityEvents = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+
+            // Reset timer on any activity
+            activityEvents.forEach(event => {
+                document.addEventListener(event, resetTimer);
+            });
+
+            // Initialize the inactivity timer
+            const isLoggedIn = logoutButton && logoutButton.closest('form') !== null;
+            if (isLoggedIn) {
+                resetTimer(); // Only start if the user is logged in
+            }
+        })();
+    </script>
+</body>
+</html>

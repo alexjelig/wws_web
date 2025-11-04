@@ -1,0 +1,19 @@
+﻿@page
+@model wws_web.Pages.IndexModel
+@{
+    ViewData["Title"] = "Main";
+}
+
+@if (!string.IsNullOrEmpty(Model.UserName) && !string.IsNullOrEmpty(Model.Email))
+{
+    <div>
+        <!-- Main page content goes here -->
+        <h3>Main page.</h3>
+    </div>
+}
+else
+{
+    <div>
+        You are not logged in. <a href="/Login">Login here</a>
+    </div>
+}

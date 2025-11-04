@@ -1,0 +1,131 @@
+﻿@{
+    var currentPage = Context.Request.Path.Value?.ToLower() ?? "";
+
+    // Only open a group if the current page is one of its child pages.
+    var setupOpen = currentPage.Contains("/editappsetup")
+                    || currentPage.Contains("/editscanner")
+                    || currentPage.Contains("/editweight")
+                    || currentPage.Contains("/editmysql");
+
+    var testsOpen = currentPage.Contains("/readserial")
+                    || currentPage.Contains("/liveweight")
+                    || currentPage.Contains("/readtcp")
+                    || currentPage.Contains("/liveweighttcp");
+}
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-page="/Index">Main</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-page="/Selection">Selection</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-page="/SwipeCard">Swipe Card</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-page="/Report">Report</a>
+    </li>
+
+    <!-- Setup group (button toggle) -->
+    <li class="nav-item">
+        <div class="d-flex justify-content-between align-items-center px-2">
+            <span class="nav-link text-white p-0">Setup</span>
+            <button class="btn btn-sm btn-link text-white p-0" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#setupCollapse"
+                    aria-expanded="@(setupOpen.ToString().ToLower())"
+                    aria-controls="setupCollapse">
+                <span class="setup-toggle-icon">@((setupOpen) ? "−" : "+")</span>
+            </button>
+        </div>
+
+        <div class="collapse @(setupOpen ? "show" : "")" id="setupCollapse">
+            <ul class="nav flex-column ms-3">
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/editappsetup") ? "active" : "")" asp-page="/Settings/EditAppSetup">Application</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/editscanner") ? "active" : "")" asp-page="/Settings/EditScanner">Scanner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/editweight") ? "active" : "")" asp-page="/Settings/EditWeight">Weight</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/editmysql") ? "active" : "")" asp-page="/Settings/EditMysql">MySQL</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+
+    <!-- Tests group (button toggle) -->
+    <li class="nav-item">
+        <div class="d-flex justify-content-between align-items-center px-2">
+            <span class="nav-link text-white p-0">Tests</span>
+            <button class="btn btn-sm btn-link text-white p-0" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#testsCollapse"
+                    aria-expanded="@(testsOpen.ToString().ToLower())"
+                    aria-controls="testsCollapse">
+                <span class="tests-toggle-icon">@((testsOpen) ? "−" : "+")</span>
+            </button>
+        </div>
+
+        <div class="collapse @(testsOpen ? "show" : "")" id="testsCollapse">
+            <ul class="nav flex-column ms-3">
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/readserial") ? "active" : "")" asp-page="/ReadSerial">Read Serial</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/liveweight") ? "active" : "")" asp-page="/LiveWeight">Live Weight</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/readtcp") ? "active" : "")" asp-page="/ReadTCP">Read TCP</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/liveweighttcp") ? "active" : "")" asp-page="/LiveWeightTCP">Live Weight (TCP)</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>
+
+<script>
+    (function () {
+        function wireCollapseToggle(collapseId, toggleSelector) {
+            var collapseEl = document.getElementById(collapseId);
+            if (!collapseEl) return;
+            var toggleBtn = document.querySelector('[data-bs-target="#' + collapseId + '"]');
+            if (!toggleBtn) return;
+            var icon = toggleBtn.querySelector(toggleSelector);
+
+            collapseEl.addEventListener('shown.bs.collapse', function () {
+                if (icon) icon.textContent = '−';
+            });
+            collapseEl.addEventListener('hidden.bs.collapse', function () {
+                if (icon) icon.textContent = '+';
+            });
+
+            // Set initial icon state from DOM class "show"
+            if (icon) {
+                var isShown = collapseEl.classList.contains('show');
+                icon.textContent = isShown ? '−' : '+';
+            }
+        }
+
+        // Prevent collapse toggle from intercepting clicks on child links (so links always navigate)
+        document.addEventListener('click', function (e) {
+            var target = e.target;
+            while (target && target !== document) {
+                if (target.matches && target.matches('.collapse .nav-link')) {
+                    e.stopPropagation();
+                    return;
+                }
+                target = target.parentNode;
+            }
+        }, true);
+
+        wireCollapseToggle('setupCollapse', '.setup-toggle-icon');
+        wireCollapseToggle('testsCollapse', '.tests-toggle-icon');
+    })();
+</script>

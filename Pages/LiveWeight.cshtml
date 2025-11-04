@@ -1,0 +1,44 @@
+﻿@page
+@model wws_web.Pages.LiveWeightModel
+@{
+    ViewData["Title"] = "Live Weight";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div style="text-align:center; margin-top:60px;">
+    <span id="weight-value" style="font-size:256px; font-weight:bold; color:#000000;">
+        --
+    </span>
+    <span style="font-size:64px; font-weight:bold; color:#000000; vertical-align:bottom;">
+        kg
+    </span>
+</div>
+<div id="weight-error" style="color:red; text-align:center; margin-top:20px; font-size:36px; font-weight:bold;"></div>
+
+@section Scripts {
+    <script>
+        function updateWeight() {
+            fetch('/WeightApi')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('weight-value').textContent = data.weight.toFixed(0);
+                        document.getElementById('weight-error').textContent = "";
+                    } else {
+                        document.getElementById('weight-error').textContent = "Error: " + data.error;
+                        document.getElementById('weight-value').textContent = "--";
+                    }
+                })
+                .catch(e => {
+                    document.getElementById('weight-error').textContent = "Error: " + e;
+                    document.getElementById('weight-value').textContent = "--";
+                });
+        }
+
+        // Poll every 1 second
+        setInterval(updateWeight, 1000);
+        // Initial load
+        updateWeight();
+    </script>
+}
