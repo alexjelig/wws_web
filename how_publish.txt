@@ -1,0 +1,12 @@
+Consider publishing the app as a self-contained executable 
+so the user doesn't need to install the .NET runtime:
+
+Run the following in your project folder:
+cmd
+dotnet publish -c Release -r win-x64 --self-contained
+This generates an .exe file for your application in the bin/Release folder. 
+Replace the .bat file with the .exe for simpler execution.
+With this approach:
+
+The .exe file will launch the app directly, removing dependency on the dotnet command.
+You can still include logic within the app to open the browser automatically.

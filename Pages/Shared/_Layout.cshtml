@@ -2,8 +2,8 @@
 
 @* Define version-related variables at the top for easy access *@
 @{
-    string version = "1.03";
-    string versionDate = "03-11-2025";
+    string version = "1.04";
+    string versionDate = "07-11-2025";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -136,8 +136,8 @@
 
     <script>
         (function () {
-            const phase1TimeoutMs = 10 * 1000; // Phase 1: Silent inactivity (10 seconds)
-            const phase2TimeoutMs = 10 * 1000; // Phase 2: Progress bar countdown (10 seconds)
+            const phase1TimeoutMs = 300 * 1000; // Phase 1: Silent inactivity (10 seconds)
+            const phase2TimeoutMs = 20 * 1000; // Phase 2: Progress bar countdown (10 seconds)
             const updateIntervalMs = 1000; // Progress bar updates every second
 
             let timeoutId;              // Timer for inactivity phases

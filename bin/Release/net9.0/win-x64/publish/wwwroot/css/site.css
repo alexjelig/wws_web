@@ -1,0 +1,212 @@
+/* Combined and cleaned site.css
+   - Merged original project styles with the sidebar, collapse and layout tweaks.
+   - Removed duplicated/conflicting rules and consolidated variables.
+   - Designed to work with the Layout changes (container-fluid + row.g-0 + sidebar px-0)
+*/
+
+/* -- Base / typography ----------------------------------------------------- */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Remove default body margin so sidebar can be flush to the left edge.
+   Keep a bottom margin reserved for the footer */
+body {
+    margin: 0 0 60px 0;
+}
+
+/* -- Focus rings & small UI tweaks ---------------------------------------- */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Form-floating placeholder alignment helpers (keeps previous behavior) */
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* -- Navbar / buttons / utility ------------------------------------------- */
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a {
+    color: #0077cc;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+/* -- Variables used by sidebar/layout ------------------------------------- */
+:root {
+    --sidebar-width: 220px;
+    --header-height: 56px; /* adjust if your header is taller/shorter */
+}
+
+/* -- Sidebar (consolidated) ----------------------------------------------- */
+/* Fixed to the left, below the header, scrollable when content is tall */
+.sidebar {
+    width: var(--sidebar-width);
+    background: #232f3e;
+    position: fixed;
+    left: 0;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* allow scrolling when content is too tall */
+    z-index: 1020; /* above page content but below modals */
+}
+
+    /* Basic list/link reset inside sidebar */
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar li {
+        padding: 18px 24px;
+    }
+
+    /* Sidebar anchor styles */
+    .sidebar a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+    }
+
+        .sidebar a:hover {
+            background: #3949ab;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+    /* Nested items inside collapse: slight indent and smaller padding */
+    .sidebar .collapse .nav .nav-link {
+        padding-left: 18px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 0.95rem;
+    }
+
+    /* Toggle icons for groups */
+    .sidebar .setup-toggle-icon,
+    .sidebar .tests-toggle-icon {
+        font-weight: 700;
+        font-size: 1.1rem;
+        line-height: 1;
+        width: 20px;
+        text-align: center;
+    }
+
+    /* Active state for nested links (override Bootstrap if needed) */
+    .sidebar .nav .nav-link.active {
+        color: #fff;
+        background: rgba(255,255,255,0.05);
+        font-weight: 600;
+    }
+
+    /* Ensure collapse container inside sidebar uses box-sizing */
+    .sidebar .collapse {
+        box-sizing: border-box;
+        background: transparent;
+    }
+
+/* If a column class is used for sidebar (layout uses col-3 px-0), ensure no leftover padding */
+.container-fluid.px-0 .row.g-0 > .col-3.px-0,
+.container-fluid.px-0 .row.g-0 > .col-3 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Push main content to the right so it does not sit under the fixed sidebar.
+   The layout uses either .main-content or a Bootstrap column; keep both supported. */
+.main-content {
+    margin-left: var(--sidebar-width);
+}
+
+/* Make sure content column (when using .col in container-fluid layout) has left padding
+   so content does not sit directly on sidebar edge */
+.container-fluid .col > main {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* Mobile: make sidebar static and full-width and remove margin-left */
+@media (max-width: 767.98px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        top: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .container-fluid .col > main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Optional small tweak: if body still shows a tiny browser default margin, uncomment:
+body { margin: 0; }
+*/
+
+/* End of combined site.css */
+

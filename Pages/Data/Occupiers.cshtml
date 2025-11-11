@@ -1,0 +1,62 @@
+@page "/Data/Occupiers"
+@model wws_web.Pages.Data.OccupiersModel
+
+@{
+    ViewData["Title"] = "Occupiers Management";
+    var actionLabel = Model.IsEditMode ? "Update" : "Add";
+}
+
+<!--<h1>Occupiers Management</h1>-->
+
+<div class="container mt-5">
+    <!-- Form section comes first -->
+    <h3>@(Model.IsEditMode ? "Edit Occupier" : "Add Occupier")</h3>
+    <form method="post" asp-page-handler="@(Model.IsEditMode ? "Update" : "Add")" asp-route-id="@Model.EditId">
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="EditId" value="@Model.EditId" /> <!-- Hidden input for EditId -->
+        }
+        <div class="form-group mb-3">
+            <label for="occTag">Occupier Tag</label>
+            <input type="text" class="form-control" id="occTag" name="OccTag" value="@Model.OccTag" maxlength="10" required />
+        </div>
+        <div class="form-group mb-3">
+            <label for="occName">Occupier Name</label>
+            <input type="text" class="form-control" id="occName" name="OccName" value="@Model.OccName" maxlength="21" required />
+        </div>
+        <button type="submit" class="btn btn-success">@actionLabel</button> <!-- Use the actionLabel variable -->
+    </form>
+</div>
+
+<div class="container mt-5">
+    <h2>Occupiers Table</h2>
+
+    <!-- Table section comes second -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Occupier Tag</th>
+                <th>Occupier Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var occupier in Model.Occupiers)
+            {
+                <tr>
+                    <td>@occupier.OccTag</td>
+                    <td>@occupier.OccName</td>
+                    <td>
+                        <!-- Single Edit button -->
+                        <a asp-page-handler="Edit" asp-route-id="@occupier.Id" class="btn btn-primary btn-sm">Edit</a>
+
+                        <!-- Single Delete button -->
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@occupier.Id" class="d-inline" onsubmit="return confirm('Do you want to delete @occupier.OccName?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -11,6 +11,10 @@
                     || currentPage.Contains("/liveweight")
                     || currentPage.Contains("/readtcp")
                     || currentPage.Contains("/liveweighttcp");
+
+    // Data group
+    var dataOpen = currentPage.Contains("/occupiers")
+                    || currentPage.Contains("/reports");
 }
 <ul class="nav flex-column">
     <li class="nav-item">
@@ -23,8 +27,29 @@
         <a class="nav-link text-white" asp-page="/SwipeCard">Swipe Card</a>
     </li>
 
+    <!-- Replace "Report" with new "Data" dropdown -->
     <li class="nav-item">
-        <a class="nav-link text-white" asp-page="/Report">Report</a>
+        <div class="d-flex justify-content-between align-items-center px-2">
+            <span class="nav-link text-white p-0">Data</span>
+            <button class="btn btn-sm btn-link text-white p-0" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#dataCollapse"
+                    aria-expanded="@(dataOpen.ToString().ToLower())"
+                    aria-controls="dataCollapse">
+                <span class="data-toggle-icon">@((dataOpen) ? "−" : "+")</span>
+            </button>
+        </div>
+
+        <div class="collapse @(dataOpen ? "show" : "")" id="dataCollapse">
+            <ul class="nav flex-column ms-3">
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/occupiers") ? "active" : "")" asp-page="/Data/Occupiers">Occupiers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/reports") ? "active" : "")" asp-page="/Data/Reports">Reports</a>
+                </li>
+            </ul>
+        </div>
     </li>
 
     <!-- Setup group (button toggle) -->
@@ -127,5 +152,6 @@
 
         wireCollapseToggle('setupCollapse', '.setup-toggle-icon');
         wireCollapseToggle('testsCollapse', '.tests-toggle-icon');
+        wireCollapseToggle('dataCollapse', '.data-toggle-icon'); // Add event listener for the Data group
     })();
 </script>
