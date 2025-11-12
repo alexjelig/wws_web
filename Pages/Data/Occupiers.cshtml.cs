@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
-using System.Diagnostics; // For Debug.WriteLine
+using System.Diagnostics;
 
 namespace wws_web.Pages.Data
 {
@@ -22,18 +22,26 @@ namespace wws_web.Pages.Data
         public bool IsEditMode { get; set; }
 
         [BindProperty]
-        public long EditId { get; set; }  // For tracking the row being edited
+        public long EditId { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int PageNumber { get; set; } = 1; // Added this property to resolve the missing symbol error
+
+        public bool HasNextPage { get; set; } // Added this property to support pagination logic
 
         public void OnGet()
         {
+            const int PageSize = 10;
+
             using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
             {
-                Debug.WriteLine($"Connecting to database: {_dbPath}");
                 connection.Open();
                 using (var command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT rowid, occTag, occName FROM occupiers";
-                    Debug.WriteLine($"Query: {command.CommandText}");
+                    command.CommandText = "SELECT rowid, occTag, occName FROM occupiers LIMIT @limit OFFSET @offset";
+                    command.Parameters.AddWithValue("@limit", PageSize);
+                    command.Parameters.AddWithValue("@offset", (PageNumber - 1) * PageSize);
+
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -42,10 +50,10 @@ namespace wws_web.Pages.Data
                             var tag = reader.GetString(1);
                             var name = reader.GetString(2);
 
-                            Debug.WriteLine($"Fetched Occupier: ID={id}, Tag={tag}, Name={name}");
-
                             Occupiers.Add(new Occupier { Id = id, OccTag = tag, OccName = name });
                         }
+
+                        HasNextPage = Occupiers.Count == PageSize; // Determine if there's a next page
                     }
                 }
             }
@@ -53,7 +61,6 @@ namespace wws_web.Pages.Data
 
         public void OnGetEdit(long id)
         {
-            Debug.WriteLine($"Editing Occupier: ID={id}");
             using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
             {
                 connection.Open();
@@ -61,7 +68,7 @@ namespace wws_web.Pages.Data
                 {
                     command.CommandText = "SELECT occTag, occName FROM occupiers WHERE rowid = @id";
                     command.Parameters.AddWithValue("@id", id);
-                    Debug.WriteLine($"Query: {command.CommandText}");
+
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -70,8 +77,6 @@ namespace wws_web.Pages.Data
                             OccName = reader.GetString(1);
                             EditId = id;
                             IsEditMode = true;
-
-                            Debug.WriteLine($"Loaded for Edit: Tag={OccTag}, Name={OccName}");
                         }
                     }
                 }
@@ -80,7 +85,6 @@ namespace wws_web.Pages.Data
 
         public IActionResult OnPostAdd()
         {
-            Debug.WriteLine($"Adding New Occupier: Tag={OccTag}, Name={OccName}");
             using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
             {
                 connection.Open();
@@ -89,7 +93,6 @@ namespace wws_web.Pages.Data
                     command.CommandText = "INSERT INTO occupiers (occTag, occName) VALUES (@occTag, @occName)";
                     command.Parameters.AddWithValue("@occTag", OccTag);
                     command.Parameters.AddWithValue("@occName", OccName);
-                    Debug.WriteLine($"Query: {command.CommandText}");
                     command.ExecuteNonQuery();
                 }
             }
@@ -99,10 +102,8 @@ namespace wws_web.Pages.Data
 
         public IActionResult OnPostSave()
         {
-            Debug.WriteLine($"Saving Occupier: ID={EditId}, Tag={OccTag}, Name={OccName}");
             if (EditId <= 0)
             {
-                Debug.WriteLine("No valid record selected for update.");
                 ModelState.AddModelError(string.Empty, "No valid record selected for editing.");
                 return Page();
             }
@@ -115,26 +116,23 @@ namespace wws_web.Pages.Data
                     command.CommandText = "UPDATE occupiers SET occTag = @occTag, occName = @occName WHERE rowid = @id";
                     command.Parameters.AddWithValue("@occTag", OccTag);
                     command.Parameters.AddWithValue("@occName", OccName);
-                    command.Parameters.AddWithValue("@id", EditId); // Correctly use EditId for update
+                    command.Parameters.AddWithValue("@id", EditId);
 
-                    var affectedRows = command.ExecuteNonQuery();
-                    Debug.WriteLine($"Rows Updated: {affectedRows}");
-                    if (affectedRows == 0)
+                    if (command.ExecuteNonQuery() == 0)
                     {
-                        Debug.WriteLine("Failed to update record.");
                         ModelState.AddModelError(string.Empty, "Failed to update the record.");
                         return Page();
                     }
                 }
             }
 
-            IsEditMode = false; // Reset edit mode
-            return RedirectToPage(); // Refresh the page after saving changes
+            IsEditMode = false; // Reset mode to Add
+            EditId = 0; // Reset tracking ID
+            return RedirectToPage();
         }
 
         public IActionResult OnPostDelete(long id)
         {
-            Debug.WriteLine($"Deleting Occupier: ID={id}");
             using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
             {
                 connection.Open();
@@ -142,9 +140,7 @@ namespace wws_web.Pages.Data
                 {
                     command.CommandText = "DELETE FROM occupiers WHERE rowid = @id";
                     command.Parameters.AddWithValue("@id", id);
-                    Debug.WriteLine($"Query: {command.CommandText}");
-                    var affectedRows = command.ExecuteNonQuery();
-                    Debug.WriteLine($"Rows Deleted: {affectedRows}");
+                    command.ExecuteNonQuery();
                 }
             }
 

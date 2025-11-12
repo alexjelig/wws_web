@@ -118,7 +118,6 @@ E:\My.ASP\wws_web\obj\Debug\net9.0\wws_web.genruntimeconfig.cache
 E:\My.ASP\wws_web\obj\Debug\net9.0\ref\wws_web.dll
 E:\My.ASP\wws_web\obj\Debug\net9.0\compressed\9un3arm7xd-9a4ucg86rt.gz
 E:\My.ASP\wws_web\obj\Debug\net9.0\compressed\srh3gh1kfx-9a4ucg86rt.gz
-E:\My.ASP\wws_web\obj\Debug\net9.0\compressed\njipv3rnym-ectgifrjas.gz
 E:\My.ASP\wws_web\bin\Debug\net9.0\Microsoft.Data.Sqlite.dll
 E:\My.ASP\wws_web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
 E:\My.ASP\wws_web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -159,3 +158,4 @@ E:\My.ASP\wws_web\bin\Debug\net9.0\runtimes\win-arm64\native\e_sqlite3.dll
 E:\My.ASP\wws_web\bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll
 E:\My.ASP\wws_web\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
 E:\My.ASP\wws_web\obj\Debug\net9.0\wws_web.sourcelink.json
+E:\My.ASP\wws_web\obj\Debug\net9.0\compressed\njipv3rnym-y6y7drgdt3.gz

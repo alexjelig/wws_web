@@ -6,12 +6,10 @@
     var actionLabel = Model.IsEditMode ? "Update" : "Add";
 }
 
-<!--<h1>Occupiers Management</h1>-->
-
 <div class="container mt-5">
     <!-- Form section comes first -->
     <h3>@(Model.IsEditMode ? "Edit Occupier" : "Add Occupier")</h3>
-    <form method="post" asp-page-handler="@(Model.IsEditMode ? "Update" : "Add")" asp-route-id="@Model.EditId">
+    <form method="post" asp-page-handler="@(Model.IsEditMode ? "Save" : "Add")" asp-route-id="@Model.EditId">
         @if (Model.IsEditMode)
         {
             <input type="hidden" name="EditId" value="@Model.EditId" /> <!-- Hidden input for EditId -->
@@ -32,7 +30,7 @@
     <h2>Occupiers Table</h2>
 
     <!-- Table section comes second -->
-    <table class="table table-striped">
+    <table class="table table-hover table-striped">
         <thead>
             <tr>
                 <th>Occupier Tag</th>
