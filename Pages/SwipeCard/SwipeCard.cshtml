@@ -1,0 +1,146 @@
+@page "/SwipeCard"
+@model wws_web.Pages.SwipeCard.SwipeCardModel
+@{
+    ViewData["Title"] = "Swipe Card";
+}
+
+<div class="container mt-4">
+    <h3>Swipe Card</h3>
+    <p class="text-muted">Place the occupant tag near the scanner. The system will detect the tag and look up the occupier.</p>
+
+    <div class="mb-3">
+        <label class="form-label">Latest Tag</label>
+        <input id="latest-tag" class="form-control" readonly value="@Model.SelectedOccTag" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Occupier</label>
+        <input id="occupier-name" class="form-control" readonly value="@Model.SelectedOccName" />
+    </div>
+
+    <div id="swipe-status" class="mt-3">
+        @if (Model.ScannerIsOpen)
+        {
+            <div class="alert alert-success">Scanner is open</div>
+        }
+        else
+        {
+            <div class="alert alert-warning">Scanner not open</div>
+        }
+    </div>
+
+    <div class="d-flex gap-2">
+        <form method="post" asp-page-handler="Clear">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-secondary">Clear selection</button>
+        </form>
+
+        <!--<button id="manual-release" class="btn btn-outline-danger">Release scanner now</button>-->
+    </div>
+</div>
+
+@section Scripts
+{
+<script>
+    // Polling interval (ms)
+    const pollIntervalMs = 300;
+    let pollId = null;
+
+    async function pollLatestTag()
+    {
+        try
+        {
+            const resp = await fetch('?handler=LatestTag', { credentials: 'same-origin' });
+            const data = await resp.json();
+            if (!data.ok) {
+                // no new tag or error
+                if (data.error) {
+                    console.warn('LatestTag error:', data.error);
+                    document.getElementById('swipe-status').innerHTML = '<div class="alert alert-danger">Lookup error: ' + (data.error || '') + '</div>';
+                }
+                return;
+            }
+
+            if (data.tag && data.tag.length > 0)
+            {
+                document.getElementById('latest-tag').value = data.tag;
+                document.getElementById('occupier-name').value = data.name || '';
+                if (data.found) {
+                    document.getElementById('swipe-status').innerHTML = '<div class="alert alert-success">Occupier found: ' + (data.name || '') + '</div>';
+                } else {
+                    document.getElementById('swipe-status').innerHTML = '<div class="alert alert-warning">Occupier not found</div>';
+                }
+            }
+        }
+        catch (e)
+        {
+            console.warn('pollLatestTag exception', e);
+        }
+    }
+
+    function startPolling()
+    {
+        if (!pollId) {
+            pollId = setInterval(pollLatestTag, pollIntervalMs);
+        }
+    }
+
+    function stopPolling()
+    {
+        if (pollId) {
+            clearInterval(pollId);
+            pollId = null;
+        }
+    }
+
+    // Release the scanner when leaving the page (best-effort) using sendBeacon
+    function releaseScanner()
+    {
+        try
+        {
+            const url = '?handler=Release';
+            const data = new Blob(['release'], { type: 'text/plain' });
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon(url, data);
+            } else {
+                fetch(url, { method: 'POST', keepalive: true, credentials: 'same-origin' }).catch(()=>{});
+            }
+        } catch (e) {
+            console.warn('releaseScanner failed', e);
+        }
+    }
+
+    // Manual release button (gives immediate release without waiting for unload)
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('manual-release').addEventListener('click', async function () {
+            try {
+                // call Release endpoint via fetch (POST)
+                await fetch('?handler=Release', { method: 'POST', credentials: 'same-origin' });
+                document.getElementById('swipe-status').innerHTML = '<div class="alert alert-secondary">Scanner released (manual)</div>';
+            } catch (e) {
+                console.warn('manual release failed', e);
+            }
+        });
+
+        // start polling
+        startPolling();
+        // initial poll immediately
+        pollLatestTag();
+    });
+
+    // stop polling & release on pagehide/unload
+    window.addEventListener('pagehide', function () {
+        stopPolling();
+        releaseScanner();
+    });
+    window.addEventListener('unload', function () {
+        stopPolling();
+        releaseScanner();
+    });
+
+    // pause polling when page hidden to reduce CPU
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) stopPolling(); else { startPolling(); pollLatestTag(); }
+    });
+</script>
+}

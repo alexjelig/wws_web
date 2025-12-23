@@ -14,6 +14,7 @@
 
     // Data group
     var dataOpen = currentPage.Contains("/occupiers")
+                    || currentPage.Contains("/waste")
                     || currentPage.Contains("/reports");
 }
 <ul class="nav flex-column">
@@ -21,13 +22,14 @@
         <a class="nav-link text-white" asp-page="/Index">Main</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" asp-page="/Selection">Selection</a>
+        <!-- POINTED to the folder/file path (Selection/Selection) -->
+        <a class="nav-link text-white" asp-page="/Selection/Selection">Selection</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" asp-page="/SwipeCard">Swipe Card</a>
+        <a class="nav-link text-white" href="/SwipeCard">Swipe Card</a>
     </li>
 
-    <!-- Replace "Report" with new "Data" dropdown -->
+    <!-- Data dropdown -->
     <li class="nav-item">
         <div class="d-flex justify-content-between align-items-center px-2">
             <span class="nav-link text-white p-0">Data</span>
@@ -46,13 +48,16 @@
                     <a class="nav-link text-white @(currentPage.Contains("/occupiers") ? "active" : "")" asp-page="/Data/Occupiers">Occupiers</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-white @(currentPage.Contains("/waste") ? "active" : "")" asp-page="/Data/Waste/Index">Waste</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-white @(currentPage.Contains("/reports") ? "active" : "")" asp-page="/Data/Reports">Reports</a>
                 </li>
             </ul>
         </div>
     </li>
 
-    <!-- Setup group (button toggle) -->
+    <!-- Setup group -->
     <li class="nav-item">
         <div class="d-flex justify-content-between align-items-center px-2">
             <span class="nav-link text-white p-0">Setup</span>
@@ -83,7 +88,7 @@
         </div>
     </li>
 
-    <!-- Tests group (button toggle) -->
+    <!-- Tests group -->
     <li class="nav-item">
         <div class="d-flex justify-content-between align-items-center px-2">
             <span class="nav-link text-white p-0">Tests</span>
@@ -131,7 +136,6 @@
                 if (icon) icon.textContent = '+';
             });
 
-            // Set initial icon state from DOM class "show"
             if (icon) {
                 var isShown = collapseEl.classList.contains('show');
                 icon.textContent = isShown ? '−' : '+';
@@ -152,6 +156,6 @@
 
         wireCollapseToggle('setupCollapse', '.setup-toggle-icon');
         wireCollapseToggle('testsCollapse', '.tests-toggle-icon');
-        wireCollapseToggle('dataCollapse', '.data-toggle-icon'); // Add event listener for the Data group
+        wireCollapseToggle('dataCollapse', '.data-toggle-icon');
     })();
 </script>

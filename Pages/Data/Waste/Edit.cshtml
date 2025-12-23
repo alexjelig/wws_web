@@ -1,0 +1,54 @@
+@page "{id:int}"
+@model wws_web.Pages.Data.Waste.EditModel
+@{
+    ViewData["Title"] = "Edit Waste";
+}
+
+<h2>Edit Waste</h2>
+
+<form method="post" enctype="multipart/form-data" id="editForm">
+    <input type="hidden" asp-for="Item.Id" />
+    <div class="mb-3">
+        <label asp-for="Item.WasteType" class="form-label">Waste type</label>
+        <input asp-for="Item.WasteType" class="form-control" />
+    </div>
+
+    <!-- Picture path text field removed (we don't display generated/selected path) -->
+
+    <div class="mb-3">
+        <label class="form-label">Browse picture</label>
+        <input type="file" name="PictureFile" class="form-control" accept=".jpg,.jpeg,.png,.bmp,.gif" id="pictureFileInput" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Preview</label>
+        <div>
+            <img id="previewImage" src="@(Model.Item?.WastePicture ?? "")" style="max-width:200px;max-height:150px;border:1px solid #ddd;padding:4px;@(string.IsNullOrEmpty(Model.Item?.WastePicture) ? "display:none;" : "")" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+<script>
+    (function() {
+        var fileInput = document.getElementById('pictureFileInput');
+        var preview = document.getElementById('previewImage');
+
+        fileInput.addEventListener('change', function(e) {
+            var file = fileInput.files && fileInput.files[0];
+            if (!file) return;
+
+            // Show client-side preview
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                preview.src = ev.target.result;
+                preview.style.display = 'inline-block';
+            };
+            reader.readAsDataURL(file);
+        });
+    })();
+</script>
+}

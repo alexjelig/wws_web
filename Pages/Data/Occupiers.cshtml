@@ -9,6 +9,9 @@
 <div class="container mt-5">
     <!-- Form section comes first -->
     <h3>@(Model.IsEditMode ? "Edit Occupier" : "Add Occupier")</h3>
+    <p class="text-info">
+        Please scan the Occupier tag using the barcode scanner, or manually enter the Occupier Tag and Name below.
+    </p>
     <form method="post" asp-page-handler="@(Model.IsEditMode ? "Save" : "Add")" asp-route-id="@Model.EditId">
         @if (Model.IsEditMode)
         {
@@ -58,3 +61,215 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    // Robust polling + diagnostics for LatestTag handler
+    const log = (...args) =>
+    {
+        try
+        {
+            console.log(`[Occupiers:${new Date().toISOString()}]`, ...args);
+        }
+        catch (e)
+        {
+            // ignore logging errors
+        }
+    };
+
+    let pollInterval = null;
+
+    async function checkScanner()
+    {
+        const startedAt = performance.now();
+        log('checkScanner() called');
+
+        // explicit path: current page path + handler query
+        const url = window.location.pathname + '?handler=LatestTag';
+
+        try
+        {
+            log('Fetching', url);
+            const response = await fetch(url,
+            {
+                method: 'GET',
+                cache: 'no-store',
+                headers:
+                {
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
+            });
+
+            const took = (performance.now() - startedAt).toFixed(1);
+            log('Fetch completed',
+            {
+                status: response.status,
+                redirected: response.redirected,
+                responseUrl: response.url,
+                tookMs: took
+            });
+
+            if (response.redirected)
+            {
+                // server redirected (likely to login) — dump the HTML
+                const text = await response.text();
+                log('Request was redirected. Response text (first 800 chars):');
+                log(text.slice(0, 800));
+                return;
+            }
+
+            const contentType = response.headers.get('content-type') || '';
+            log('Response content-type:', contentType);
+
+            if (!contentType.includes('application/json'))
+            {
+                // Not JSON — log the body so we can inspect it
+                const text = await response.text();
+                log('Expected JSON but got non-JSON response. Response text (first 2000 chars):');
+                log(text.slice(0, 2000));
+                return;
+            }
+
+            // Safe parse
+            let data = null;
+            try
+            {
+                data = await response.json();
+                log('Parsed JSON', data);
+            }
+            catch (je)
+            {
+                const text = await response.text();
+                log('JSON parse failed. Response text (first 2000 chars):');
+                log(text.slice(0, 2000));
+                log('Parse exception:', je);
+                return;
+            }
+
+            // Normal UI update (unchanged)
+            const tagInput = document.getElementById('occTag');
+            const nameInput = document.getElementById('occName');
+            const addButton = document.querySelector('button.btn-success');
+
+            const tag = data && typeof data.tag === 'string' ? data.tag : '';
+            const exists = !!data && !!data.exists;
+            const occName = data && typeof data.occName === 'string' ? data.occName : '';
+
+            log('Interpreted fields', { tag, exists, occName });
+
+            if (tag && tag.length > 0)
+            {
+                log('Applying tag to UI:', tag);
+
+                if (tagInput)
+                {
+                    const prev = tagInput.value;
+                    tagInput.value = tag;
+                    log(`tagInput updated (was='${prev}', now='${tag}')`);
+                }
+
+                if (exists && occName)
+                {
+                    if (nameInput)
+                    {
+                        const prevName = nameInput.value;
+                        nameInput.value = occName;
+                        log(`nameInput updated (was='${prevName}', now='${occName}')`);
+                    }
+                    if (addButton)
+                    {
+                        const prevLabel = addButton.innerHTML;
+                        addButton.innerHTML = 'Update';
+                        log(`addButton label changed (was='${prevLabel}', now='Update')`);
+                    }
+                }
+                else
+                {
+                    if (nameInput)
+                    {
+                        const prevName = nameInput.value;
+                        nameInput.value = '';
+                        log(`nameInput cleared (was='${prevName}')`);
+                    }
+                    if (addButton)
+                    {
+                        const prevLabel = addButton.innerHTML;
+                        addButton.innerHTML = 'Add';
+                        log(`addButton label changed (was='${prevLabel}', now='Add')`);
+                    }
+                }
+            }
+            else
+            {
+                log('No tag in JSON payload; nothing applied.');
+            }
+        }
+        catch (e)
+        {
+            log('checkScanner failed:', e);
+            console.error(e);
+        }
+    }
+
+    window.debugCheckScanner = checkScanner;
+
+    document.addEventListener('visibilitychange', () =>
+    {
+        if (document.visibilityState === 'visible')
+        {
+            log('Page visible — starting poll if needed');
+            if (!pollInterval)
+            {
+                pollInterval = setInterval(() =>
+                {
+                    try
+                    {
+                        checkScanner();
+                    }
+                    catch (ex)
+                    {
+                        log('checkScanner threw', ex);
+                    }
+                }, 2000);
+                // do an immediate check
+                checkScanner().catch(err => log('Initial checkScanner error', err));
+            }
+            else
+            {
+                log('pollInterval already running id=', pollInterval);
+            }
+        }
+        else
+        {
+            log('Page hidden — stopping poll');
+            if (pollInterval)
+            {
+                clearInterval(pollInterval);
+                log('cleared pollInterval id=', pollInterval);
+                pollInterval = null;
+            }
+        }
+    });
+
+    // Start on load if visible
+    if (document.visibilityState === 'visible')
+    {
+        log('Page loaded and visible — start polling');
+        pollInterval = setInterval(() =>
+        {
+            try
+            {
+                checkScanner();
+            }
+            catch (ex)
+            {
+                log('checkScanner threw', ex);
+            }
+        }, 2000);
+        checkScanner().catch(err => log('Initial checkScanner error', err));
+    }
+    else
+    {
+        log('Page loaded but not visible; polling not started');
+    }
+</script>

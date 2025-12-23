@@ -1,0 +1,47 @@
+@page
+@model wws_web.Pages.Data.Waste.IndexModel
+@{
+    ViewData["Title"] = "Waste";
+}
+
+<h2>Waste</h2>
+
+<p>
+    <a class="btn btn-sm btn-primary" asp-page="./Create">Create new</a>
+</p>
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Picture</th>
+            <th>Type</th>
+            <!-- Picture path column removed (visual only) -->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items)
+{
+    <tr>
+        <td style="width:160px;">  <!-- widened container to fit bigger thumbnails -->
+            @if (!string.IsNullOrEmpty(item.DisplayImageUrl))
+            {
+                <!-- doubled thumbnail size: previously max-height:80px; max-width:100px -->
+                <img src="@item.DisplayImageUrl" alt="" style="max-height:160px; max-width:200px;" />
+            }
+            else
+            {
+                <div style="width:200px;height:160px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;">
+                    no image
+                </div>
+            }
+        </td>
+        <td>@item.WasteType</td>
+        <td>
+            <a class="btn btn-sm btn-secondary" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+            <a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

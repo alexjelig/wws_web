@@ -1,0 +1,90 @@
+@page
+@model wws_web.Pages.Data.OccupiersModel
+@{
+    ViewData["Title"] = "Occupiers";
+}
+@section Scripts {
+    <script>
+        const pollIntervalMs = 300; // adjust as you like
+        let pollId = null;
+
+        async function pollLatestTag()
+        {
+            try
+            {
+                const resp = await fetch('?handler=LatestTag', { credentials: 'same-origin' });
+                const data = await resp.json();
+                if (data && data.ok && data.tag)
+                {
+                    if (data.tag.length > 0)
+                    {
+                        // Put tag into the input (adjust selector to your input ID/name)
+                        const input = document.querySelector('#OccupierTag') || document.querySelector('input[name="OccupierTag"]');
+                        if (input)
+                        {
+                            input.value = data.tag;
+                            // Optionally focus next field:
+                            const nameField = document.querySelector('#OccupierName') || document.querySelector('input[name="OccupierName"]');
+                            if (nameField) nameField.focus();
+                        }
+                    }
+                }
+            }
+            catch (e)
+            {
+                console.warn('pollLatestTag error', e);
+            }
+        }
+
+        function startPolling()
+        {
+            if (!pollId) {
+                pollId = setInterval(pollLatestTag, pollIntervalMs);
+            }
+        }
+
+        function stopPolling()
+        {
+            if (pollId) {
+                clearInterval(pollId);
+                pollId = null;
+            }
+        }
+
+        // Release the scanner when leaving the page (best-effort)
+        function releaseScanner()
+        {
+            try
+            {
+                const url = '?handler=Release';
+                const data = new Blob(['release'], { type: 'text/plain' });
+                if (navigator.sendBeacon)
+                {
+                    navigator.sendBeacon(url, data);
+                }
+                else
+                {
+                    fetch(url, { method: 'POST', keepalive: true, credentials: 'same-origin' }).catch(()=>{});
+                }
+            }
+            catch (e)
+            {
+                console.warn('releaseScanner error', e);
+            }
+        }
+
+        // Start poll on load
+        document.addEventListener('DOMContentLoaded', function () {
+            startPolling();
+        });
+
+        // Stop poll and release when leaving
+        window.addEventListener('pagehide', function () { stopPolling(); releaseScanner(); });
+        window.addEventListener('unload', function () { stopPolling(); releaseScanner(); });
+
+        // Also stop polling when tab hidden to reduce CPU
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) stopPolling(); else startPolling();
+        });
+    </script>
+}

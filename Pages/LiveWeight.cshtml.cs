@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using wws_web.Models;
 using wws_web.Services;
+using System.Diagnostics;
 
 namespace wws_web.Pages
 {
@@ -13,11 +14,13 @@ namespace wws_web.Pages
     {
         private readonly IFileSettingsService _fileSettings;
         private readonly IConfiguration _config;
+        private readonly DeviceManager _devices;
 
-        public LiveWeightModel(IFileSettingsService fileSettings, IConfiguration config)
+        public LiveWeightModel(IFileSettingsService fileSettings, IConfiguration config, DeviceManager devices)
         {
             _fileSettings = fileSettings;
             _config = config;
+            _devices = devices;
         }
 
         // optional override from UI (if you add an input)
@@ -59,13 +62,36 @@ namespace wws_web.Pages
             }
         }
 
+        // OnGetAsync: prefill UI and ACQUIRE the weight device so the port is opened while user is on this page.
+        // The matching Release will be attempted from client-side on unload (sendBeacon), and there's a server-side Release handler as well.
         public async Task OnGetAsync()
         {
             // Prefill optional override from saved settings for convenience in UI
             var settings = await LoadWeightSettingsAsync();
             PortNameOverride = settings.PortName ?? string.Empty;
+
+            // Attempt to Acquire the Baykon weight reader so the port is opened while the user is on this page.
+            try
+            {
+                var weightReader = _devices.Get<BaykonWeightReaderService>("BaykonWeightReader");
+                if (weightReader != null)
+                {
+                    // If PortNameOverride provided, let caller change the reader's port before Acquire if desired.
+                    if (!string.IsNullOrWhiteSpace(PortNameOverride))
+                        weightReader.SerialPortName = PortNameOverride;
+
+                    weightReader.Acquire();
+                    Debug.WriteLine("[LiveWeight] Acquired BaykonWeightReader on OnGetAsync. Ref=" + weightReader.CurrentRefCount);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("[LiveWeight] Acquire failed: " + ex.Message);
+                // Don't throw — keep page usable, but show an error when trying to read
+            }
         }
 
+        // Keep existing ad-hoc read method (left in place per your request to keep unrelated functions)
         public async Task OnPostReadAsync()
         {
             Weight = null;
@@ -110,6 +136,92 @@ namespace wws_web.Pages
             catch (Exception ex)
             {
                 Error = ex.Message + " (Line 112)";
+            }
+        }
+
+        // Handler that the page's JS will poll for a live weight. Called with ?handler=GetWeight
+        public JsonResult OnGetGetWeight()
+        {
+            try
+            {
+                var settingsTask = LoadWeightSettingsAsync();
+                settingsTask.Wait();
+                var settings = settingsTask.Result;
+
+                var weightReader = _devices.Get<BaykonWeightReaderService>("BaykonWeightReader");
+                if (weightReader == null)
+                {
+                    return new JsonResult(new { success = false, error = "Weight reader service not available" });
+                }
+
+                BaykonWeightResult result;
+
+                // Prefer serial if a port is configured; otherwise attempt TCP read
+                var effectivePort = !string.IsNullOrWhiteSpace(PortNameOverride) ? PortNameOverride : settings.PortName;
+                if (!string.IsNullOrWhiteSpace(effectivePort))
+                {
+                    // Ensure the port is open. Acquire may have been called in OnGetAsync; if not, attempt to Acquire here.
+                    var acquiredHere = false;
+                    try
+                    {
+                        if (!weightReader.IsOpen)
+                        {
+                            weightReader.Acquire();
+                            acquiredHere = true;
+                        }
+
+                        result = weightReader.ReadWeightFromSerial();
+                    }
+                    finally
+                    {
+                        // If we acquired just for this call, release immediately (but normally the page holds an Acquire)
+                        if (acquiredHere)
+                        {
+                            weightReader.Release();
+                        }
+                    }
+                }
+                else
+                {
+                    // TCP fallback (does not require Acquire)
+                    result = weightReader.ReadWeightFromTcp();
+                }
+
+                if (result.Success)
+                {
+                    return new JsonResult(new { success = true, weight = result.GrossWeight });
+                }
+
+                return new JsonResult(new { success = false, error = result.ErrorMessage });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("[LiveWeight] OnGetGetWeight error: " + ex.Message);
+                return new JsonResult(new { success = false, error = ex.Message });
+            }
+        }
+
+        // Release handler called from client using sendBeacon on unload (best-effort).
+        // We disable antiforgery because sendBeacon won't include it.
+        [IgnoreAntiforgeryToken]
+        public JsonResult OnPostRelease()
+        {
+            try
+            {
+                var weightReader = _devices.Get<BaykonWeightReaderService>("BaykonWeightReader");
+                if (weightReader != null)
+                {
+                    weightReader.Release();
+                    Debug.WriteLine("[LiveWeight] OnPostRelease called; ref=" + weightReader.CurrentRefCount);
+                    return new JsonResult(new { ok = true });
+                }
+
+                return new JsonResult(new { ok = false, error = "Weight reader not found" });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("[LiveWeight] OnPostRelease error: " + ex.Message);
+                return new JsonResult(new { ok = false, error = ex.Message });
             }
         }
     }

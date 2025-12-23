@@ -16,11 +16,13 @@ namespace wws_web.Pages.Settings
     {
         private readonly IFileSettingsService _fileSettings;
         private readonly IConfiguration _config;
+        private readonly DeviceManager _deviceManager;
 
-        public EditScannerModel(IFileSettingsService fileSettings, IConfiguration config)
+        public EditScannerModel(IFileSettingsService fileSettings, IConfiguration config, DeviceManager deviceManager)
         {
             _fileSettings = fileSettings;
             _config = config;
+            _deviceManager = deviceManager; // Inject DeviceManager
         }
 
         [BindProperty]
@@ -145,9 +147,12 @@ namespace wws_web.Pages.Settings
             {
                 var path = NormalizeAndValidatePath(filePath);
                 await _fileSettings.WriteAsync(path, Model);
+
+                // Reconfigure the ScannerDevice dynamically
+                _deviceManager.ReconfigureSerialDevice("Scanner", Model);
+
                 TempData["Message"] = "Saved successfully to " + path;
 
-                // SAFE: use the absolute page name so RedirectToPage can always resolve it
                 return RedirectToPage("/Settings/EditScanner", new { filePath = path });
             }
             catch (ArgumentException)

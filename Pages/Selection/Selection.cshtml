@@ -1,0 +1,214 @@
+@page
+@model wws_web.Pages.Selection.SelectionModel
+@{
+    ViewData["Title"] = "Waste Selection";
+}
+
+<div class="container mt-4">
+    <h3>Waste Selection</h3>
+    <p class="text-muted">
+        Choose a waste item.
+    </p>
+
+    @if (Model.SelectedWasteId.HasValue)
+    {
+        <div class="alert alert-info p-2 mb-3" id="current-selection-alert">
+            Selected: <strong>@Model.SelectedWasteType</strong>
+        </div>
+    }
+
+    <div class="row">
+        @if (Model.Wastes.Count == 0)
+        {
+            <div class="col-12">
+                <div class="alert alert-warning">No waste items are stored. Please add waste items first.</div>
+            </div>
+        }
+        else
+        {
+            @for (int i = 0; i < Model.Wastes.Count; i++)
+            {
+                var w = Model.Wastes[i];
+
+                // Decide the initial button classes based on session-selected id
+                var btnClass = (Model.SelectedWasteId.HasValue && Model.SelectedWasteId.Value == w.Id)
+                    ? "btn btn-primary w-100 waste-button"
+                    : "btn btn-outline-primary w-100 waste-button";
+
+                <div class="col-md-4 mb-4">
+                    <button type="button"
+                            class="@btnClass"
+                            style="min-height: 180px; position:relative;"
+                            data-id="@w.Id"
+                            data-type="@w.WasteType"
+                            data-picture="@w.WastePicture">
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            @if (!string.IsNullOrWhiteSpace(w.WastePicture))
+                            {
+                                <img src="@w.WastePicture"
+                                     alt="@w.WasteType"
+                                     class="img-fluid mb-2"
+                                     style="max-height:120px; object-fit:contain;"
+                                     onerror="this.style.display='none';" />
+                            }
+                            <span class="fw-bold">@w.WasteType</span>
+                        </div>
+                    </button>
+                </div>
+            }
+        }
+    </div>
+
+    @if (Model.Wastes.Count > 0 && (Model.HasPreviousPage || Model.HasNextPage))
+    {
+        <div class="d-flex justify-content-between mb-4">
+            <div>
+                @if (Model.HasPreviousPage)
+                {
+                    <a class="btn btn-secondary"
+                       asp-page="/Selection/Selection"
+                       asp-route-PageNumber="@(Model.PageNumber - 1)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                }
+            </div>
+            <div>
+                <span class="text-muted">Page @Model.PageNumber</span>
+            </div>
+            <div>
+                @if (Model.HasNextPage)
+                {
+                    <a class="btn btn-secondary"
+                       asp-page="/Selection/Selection"
+                       asp-route-PageNumber="@(Model.PageNumber + 1)">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+<script>
+    // Attach press behavior and click handlers (unchanged)
+    document.querySelectorAll('.waste-button').forEach(btn =>
+    {
+        btn.addEventListener('click', () =>
+        {
+            const id = btn.getAttribute('data-id');
+            const type = btn.getAttribute('data-type');
+
+            selectWaste(id, type, btn);
+        });
+    });
+
+    function highlightSelected(button)
+    {
+        document.querySelectorAll('.waste-button').forEach(b =>
+        {
+            b.classList.remove('btn-primary');
+            b.classList.add('btn-outline-primary');
+        });
+
+        button.classList.remove('btn-outline-primary');
+        button.classList.add('btn-primary');
+    }
+
+    async function selectWaste(id, type, button)
+    {
+        try
+        {
+            const payload =
+            {
+                Id: parseInt(id),
+                WasteType: type
+            };
+
+            const resp = await fetch('?handler=SelectWaste',
+            {
+                method: 'POST',
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': getAntiForgeryToken()
+                },
+                body: JSON.stringify(payload),
+                credentials: 'same-origin'
+            });
+
+            const data = await resp.json();
+            if (data.ok)
+            {
+                highlightSelected(button);
+                showSelectionBanner(data.type);
+                console.log('Waste selected:', data);
+            }
+            else
+            {
+                console.warn('Selection failed:', data.message);
+            }
+        }
+        catch (e)
+        {
+            console.error('Error selecting waste:', e);
+        }
+    }
+
+    function showSelectionBanner(type)
+    {
+        let alert = document.querySelector('#current-selection-alert');
+        if (!alert)
+        {
+            alert = document.createElement('div');
+            alert.id = 'current-selection-alert';
+            alert.className = 'alert alert-info p-2 mb-3';
+            const container = document.querySelector('.container');
+            container.insertBefore(alert, container.children[2]);
+        }
+        alert.innerHTML = 'Selected: <strong>' + type + '</strong>';
+    }
+
+    function getAntiForgeryToken()
+    {
+        const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+        return tokenInput ? tokenInput.value : '';
+    }
+
+            // Release the scanner when leaving the page (best-effort)
+        function releaseScanner()
+        {
+            try
+            {
+                const url = '? handler=Release';
+                const data = new Blob(['release'], { type: 'text/plain' });
+                if (navigator.sendBeacon)
+                {
+                    navigator.sendBeacon(url, data);
+                    log('sendBeacon Release sent');
+                }
+                else
+                {
+                    fetch(url, { method: 'POST', keepalive: true, credentials: 'same-origin' }).catch(()=>{});
+                    log('fetch Release sent (fallback)');
+                }
+            }
+            catch (e)
+            {
+                log('releaseScanner failed', e);
+            }
+        }
+
+        // Release on unload
+        window.addEventListener('pagehide', releaseScanner);
+        window.addEventListener('unload', releaseScanner);
+
+
+</script>
+}
+
+<!-- Anti-forgery token for POST -->
+<form method="post" class="d-none">
+    @Html.AntiForgeryToken()
+</form>

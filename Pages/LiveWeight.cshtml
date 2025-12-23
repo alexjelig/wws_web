@@ -18,27 +18,65 @@
 
 @section Scripts {
     <script>
-        function updateWeight() {
-            fetch('/WeightApi')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('weight-value').textContent = data.weight.toFixed(0);
-                        document.getElementById('weight-error').textContent = "";
-                    } else {
-                        document.getElementById('weight-error').textContent = "Error: " + data.error;
-                        document.getElementById('weight-value').textContent = "--";
-                    }
-                })
-                .catch(e => {
-                    document.getElementById('weight-error').textContent = "Error: " + e;
+        async function updateWeight() {
+            try {
+                const resp = await fetch('?handler=GetWeight', { credentials: 'same-origin' });
+                const data = await resp.json();
+                if (data.success) {
+                    document.getElementById('weight-value').textContent = Math.round(data.weight);
+                    document.getElementById('weight-error').textContent = "";
+                } else {
+                    document.getElementById('weight-error').textContent = "Error: " + data.error;
                     document.getElementById('weight-value').textContent = "--";
-                });
+                }
+            } catch (e) {
+                document.getElementById('weight-error').textContent = "Error: " + e;
+                document.getElementById('weight-value').textContent = "--";
+            }
         }
 
         // Poll every 1 second
-        setInterval(updateWeight, 1000);
+        const pollInterval = 1000;
+        let pollId = setInterval(updateWeight, pollInterval);
         // Initial load
         updateWeight();
+
+        // Release the weight reader on pagehide/unload using sendBeacon (best-effort)
+        function releaseWeightReader() {
+            try {
+                const url = '?handler=Release';
+                const data = new Blob(['release'], { type: 'text/plain' });
+                if (navigator.sendBeacon) {
+                    navigator.sendBeacon(url, data);
+                } else {
+                    // Fallback (best-effort)
+                    fetch(url, { method: 'POST', keepalive: true, credentials: 'same-origin' }).catch(() => { });
+                }
+            } catch (e) {
+                console.warn('Release error', e);
+            }
+        }
+
+        window.addEventListener('pagehide', function () {
+            releaseWeightReader();
+        });
+        window.addEventListener('unload', function () {
+            releaseWeightReader();
+        });
+
+        // Optional: stop polling when the page becomes hidden to reduce load
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                if (pollId) {
+                    clearInterval(pollId);
+                    pollId = 0;
+                }
+            } else {
+                if (!pollId) {
+                    pollId = setInterval(updateWeight, pollInterval);
+                    updateWeight();
+                }
+            }
+        });
     </script>
 }

@@ -1,0 +1,277 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using wws_web.Services;
+
+namespace wws_web.Pages.Data
+{
+    public class OccupiersModel : PageModel
+    {
+        private readonly DeviceManager _devices;
+        private readonly ScannerDevice _scanner;
+        private readonly ILogger<OccupiersModel> _logger;
+
+        private readonly string _dbPath = @"C:\wws\wws.db3";
+
+        public OccupiersModel(DeviceManager devices, ILogger<OccupiersModel> logger)
+        {
+            _devices = devices;
+            _scanner = _devices.Get<ScannerDevice>("Scanner")!;
+            _logger = logger;
+        }
+
+        public List<Occupier> Occupiers { get; set; } = new List<Occupier>();
+
+        [BindProperty]
+        public string? OccTag { get; set; }
+
+        [BindProperty]
+        public string? OccName { get; set; }
+
+        [BindProperty]
+        public bool IsEditMode { get; set; }
+
+        [BindProperty]
+        public long EditId { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int PageNumber { get; set; } = 1;
+
+        public bool HasNextPage { get; set; }
+
+        public void OnGet()
+        {
+            LogDebug("[OnGet] Loading occupiers from DB");
+
+            const int PageSize = 10;
+            Occupiers.Clear();
+
+            using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT rowid, occTag, occName FROM occupiers LIMIT @limit OFFSET @offset";
+                    command.Parameters.AddWithValue("@limit", PageSize);
+                    command.Parameters.AddWithValue("@offset", (PageNumber - 1) * PageSize);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var id = reader.GetInt64(0);
+                            var tag = reader.GetString(1);
+                            var name = reader.GetString(2);
+
+                            Occupiers.Add(new Occupier { Id = id, OccTag = tag, OccName = name });
+                        }
+
+                        HasNextPage = Occupiers.Count == PageSize; // Determine if there's a next page
+                    }
+                }
+            }
+        }
+
+        // Polling endpoint called by client JS to get latest scanned tag
+        public JsonResult OnGetLatestTag()
+        {
+            try
+            {
+                if (_scanner == null)
+                {
+                    Debug.WriteLine("[OnGetLatestTag] Error: ScannerDevice is null.");
+                    LogDebug("[OnGetLatestTag] ScannerDevice is null.");
+                    return new JsonResult(new { tag = "", exists = false });
+                }
+
+                // Use the centralized scanner device to consume the latest tag
+                string tag = _scanner.ConsumeLatest();
+                if (!string.IsNullOrEmpty(tag))
+                {
+                    Debug.WriteLine($"[OnGetLatestTag] ScannerDevice produced tag: {tag}");
+                    LogDebug($"[OnGetLatestTag] ScannerDevice produced tag: {tag}");
+                }
+                else
+                {
+                    Debug.WriteLine("[OnGetLatestTag] ScannerDevice returned empty.");
+                    LogDebug("[OnGetLatestTag] ScannerDevice returned empty.");
+                }
+
+                if (string.IsNullOrWhiteSpace(tag))
+                {
+                    return new JsonResult(new { tag = "", exists = false });
+                }
+
+                // Lookup the tag in the database (if needed)
+                using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+                {
+                    connection.Open();
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT occName FROM occupiers WHERE occTag = @tag LIMIT 1";
+                        command.Parameters.AddWithValue("@tag", tag);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string occName = reader.GetString(0);
+                                Debug.WriteLine($"[OnGetLatestTag] Tag found: {tag}, Name: {occName}");
+                                return new JsonResult(new { tag, occName, exists = true });
+                            }
+                        }
+                    }
+                }
+
+                return new JsonResult(new { tag, occName = "", exists = false });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[OnGetLatestTag] Exception: {ex}");
+                _logger.LogError(ex, "[OnGetLatestTag] Exception while retrieving latest tag");
+                return new JsonResult(new { tag = "", exists = false, error = ex.Message });
+            }
+        }
+
+        public JsonResult OnPostAcknowledgeTag()
+        {
+            try
+            {
+                _scanner?.AcknowledgeTag();
+                Debug.WriteLine("[OnPostAcknowledgeTag] Latest tag acknowledged and cleared.");
+                return new JsonResult(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[OnPostAcknowledgeTag] Exception");
+                return new JsonResult(new { success = false, error = ex.Message });
+            }
+        }
+
+        public JsonResult OnGetDisposeScanner()
+        {
+            try
+            {
+                if (_scanner != null)
+                {
+                    _scanner.Close(); // Gracefully close the serial port if ScannerDevice exposes this
+                    Debug.WriteLine("[OnGetDisposeScanner] Scanner port closed.");
+                    return new JsonResult(new { success = true });
+                }
+
+                Debug.WriteLine("[OnGetDisposeScanner] Scanner was null.");
+                return new JsonResult(new { success = false });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[OnGetDisposeScanner] Exception");
+                return new JsonResult(new { success = false, error = ex.Message });
+            }
+        }
+
+        public void OnGetEdit(long id)
+        {
+            using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT occTag, occName FROM occupiers WHERE rowid = @id";
+                    command.Parameters.AddWithValue("@id", id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            OccTag = reader.GetString(0);
+                            OccName = reader.GetString(1);
+                            EditId = id;
+                            IsEditMode = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        public IActionResult OnPostAdd()
+        {
+            using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "INSERT INTO occupiers (occTag, occName) VALUES (@occTag, @occName)";
+                    command.Parameters.AddWithValue("@occTag", OccTag);
+                    command.Parameters.AddWithValue("@occName", OccName);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostSave()
+        {
+            if (EditId <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "No valid record selected for editing.");
+                return Page();
+            }
+
+            using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "UPDATE occupiers SET occTag = @occTag, occName = @occName WHERE rowid = @id";
+                    command.Parameters.AddWithValue("@occTag", OccTag);
+                    command.Parameters.AddWithValue("@occName", OccName);
+                    command.Parameters.AddWithValue("@id", EditId);
+
+                    if (command.ExecuteNonQuery() == 0)
+                    {
+                        ModelState.AddModelError(string.Empty, "Failed to update the record.");
+                        return Page();
+                    }
+                }
+            }
+
+            IsEditMode = false; // Reset mode to Add
+            EditId = 0; // Reset tracking ID
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostDelete(long id)
+        {
+            using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "DELETE FROM occupiers WHERE rowid = @id";
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            return RedirectToPage();
+        }
+
+        private void LogDebug(string message)
+        {
+            Debug.WriteLine($"[OccupiersModel] {message}");
+            _logger.LogDebug(message);
+        }
+    }
+
+    public class Occupier
+    {
+        public long Id { get; set; }
+        public string? OccTag { get; set; }
+        public string? OccName { get; set; }
+    }
+}
